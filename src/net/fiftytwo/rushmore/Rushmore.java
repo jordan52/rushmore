@@ -54,12 +54,12 @@ public class Rushmore extends JPanel
 		controller.addMainFrame(appFrame);
 
 		//add some views to the appFrame 
-        appFrame.addImageView(imageView);
-        appFrame.addTab(cmtView);
+		appFrame.addImageView(imageView);
+		appFrame.addTab(cmtView);
 
 		//get swinging.
-        appFrame.pack();
-        appFrame.setVisible(true);
+		appFrame.pack();
+		appFrame.setVisible(true);
 	}
 	public static void main(String[] args)
 	{	
