@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<project name="heart" basedir="." default="all">
+
+    <target name="init">
+        <property name="name" value="heart"/>
+		<property name="src.dir" value="src" />
+		<property name="lib.dir" value="lib" />
+		<property name="build.dir" value="build" />
+		<property name="classes.dir" value="${build.dir}/classes" />
+		<property name="etc.dir" value="etc" />
+		<property name="deploy.name" value="${name}.jar" />
+    </target>
+
+    <target name="prepare" depends="init">
+		<mkdir dir="${classes.dir}" />
+    </target>
+
+    <target name="clean" depends="init" description="Clean all build products">
+        <delete>
+            <fileset dir="${build.dir}">
+                <include name="**/*.class" />
+            </fileset>
+		</delete>
+		<delete>
+            <fileset dir="${src.dir}" >
+                <include name="**/*.class" />
+                <include name="**/.nbattrs" />
+                <include name="**/*.java~" />
+            </fileset>
+        </delete>
+		<delete>
+            <fileset dir="${src.dir}" defaultexcludes="false">
+                <include name="**/*~*" />
+            </fileset>
+        </delete>
+    </target>
+    
+    <path id="project.class.path">
+        <pathelement location="${lib.dir}/jai_core.jar" />
+ 	  	<pathelement location="${lib.dir}/jai_codec.jar" />
+        <pathelement location="${lib.dir}/mlibwrapper_jai.jar" />
+        <pathelement location="${lib.dir}/log4j-1.2.8.jar" />
+    </path>
+
+    <target name="compile" depends="prepare">
+        <javac 
+            srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            debug="true"
+            optimize="false">        
+
+            <!-- <classpath refid="project.class.path" />         -->
+            <classpath>
+                <pathelement location="${lib.dir}/jai_core.jar" />
+                <pathelement location="${lib.dir}/jai_codec.jar" />
+                <pathelement location="${lib.dir}/jlfgr-1_0.jar"/>
+                <pathelement location="${lib.dir}/mlibwrapper_jai.jar" />
+                <pathelement location="${lib.dir}/log4j-1.2.8.jar"/>
+                <pathelement location="${lib.dir}/xml-actions.jar"/>
+                <pathelement location="${lib.dir}/xtiff-jai.jar"/>
+                
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="all" depends="prepare,compile" description="Build everything.">
+        <echo message="Application built!"/>
+    </target>
+
+    <target name="run" depends="init" description="Runs a class">
+    </target>
+
+</project>

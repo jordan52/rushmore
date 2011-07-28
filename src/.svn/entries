@@ -1,0 +1,79 @@
+8
+
+dir
+176
+https://fiftytwo.net/reposJordan/trunk/projects/code/heartStuff/rushmore/src
+https://fiftytwo.net/reposJordan
+
+
+
+2005-08-19T04:48:28.642174Z
+19
+jordan
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+923877a6-8efb-0310-9653-b0c3793ed2f0
+
+appProps.properties
+file
+
+
+
+
+2008-01-20T22:59:43.000000Z
+d41d8cd98f00b204e9800998ecf8427e
+2005-08-19T04:48:28.642174Z
+19
+jordan
+
+appActions.xml
+file
+
+
+
+
+2008-01-20T22:59:43.000000Z
+a5fa3d101d1b9f77a50134710ddec912
+2005-08-19T04:48:28.642174Z
+19
+jordan
+
+guiProps.properties
+file
+
+
+
+
+2008-01-20T22:59:43.000000Z
+d41d8cd98f00b204e9800998ecf8427e
+2005-08-19T04:48:28.642174Z
+19
+jordan
+
+net
+dir
+
+log4j.properties
+file
+
+
+
+
+2008-01-20T22:59:43.000000Z
+48650834cc1deaaa6f49c5f5300db8c1
+2005-08-19T04:48:28.642174Z
+19
+jordan
+

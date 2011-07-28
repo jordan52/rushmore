@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE action-set SYSTEM "action-set.dtd">
+
+<!--
+  The actions define all the Actions in an application 
+  and toolbars and menus which use the actions
+-->
+
+<action-set id="action-app">
+
+  <!-- Define the actions. The following set represent menus. -->
+
+  <action id="file-menu-command"
+          name="File"
+          mnemonic="F"
+	  desc="File Operations"/>
+
+  <action id="edit-menu-command"
+          name="Edit"
+          mnemonic="E"
+          desc="Edit Operations"/>
+ 
+  <action id="control-menu-command"
+          name="Control"
+          mnemonic="C"
+          desc="Media Control Operations"/>
+ 
+  <action id="view-menu-command"
+          name="View"
+          mnemonic="V"
+          desc="View Operations"/>
+
+
+  <!-- File menu operations -->
+
+  <action id="new-command"
+          name="New"
+          mnemonic="N"
+          smicon="/toolbarButtonGraphics/general/New16.gif"
+          icon="/toolbarButtonGraphics/general/New24.gif"
+	  accel="control N"
+          desc="Create a new object"/>
+
+  <action id="open-command"
+          name="Open..."
+          mnemonic="O"
+          smicon="/toolbarButtonGraphics/general/Open16.gif"
+          icon="/toolbarButtonGraphics/general/Open24.gif"
+	  accel="control O"
+          desc="Open the specified object"/>
+
+  <action id="save-command"
+          name="Save..."
+          mnemonic="S"
+          smicon="/toolbarButtonGraphics/general/Save16.gif"
+          icon="/toolbarButtonGraphics/general/Save24.gif"
+	  accel="control S"
+          desc="Save the current document"/>
+          
+  <action id="close-command"
+          name="Close..."
+          mnemonic="C"
+	  accel="control C"
+          desc="Close the current document"/>
+          
+  <action id="exit-command"
+          name="Exit"
+          mnemonic="X"
+          desc="Exits the application"/>
+
+  <!-- Edit menu commands -->
+  
+  <action id="copy-command"
+          name="Copy"
+          mnemonic="C"
+          smicon="/toolbarButtonGraphics/general/Copy16.gif"
+          icon="/toolbarButtonGraphics/general/Copy24.gif"
+	  accel="control C"
+          desc="Creates a duplicate of the selected item"/>
+
+  <action id="cut-command"
+          name="Cut"
+          mnemonic="T"
+          smicon="/toolbarButtonGraphics/general/Cut16.gif"
+          icon="/toolbarButtonGraphics/general/Cut24.gif"
+	  accel="control X"
+          desc="Remove selected item"/>
+  
+  <action id="paste-command"
+          name="Paste"
+          mnemonic="P"
+          smicon="/toolbarButtonGraphics/general/Paste16.gif"
+          icon="/toolbarButtonGraphics/general/Paste24.gif"
+	  accel="control V"
+          desc="Inserts an object from the clipboard"/>
+
+  <!-- Control menu commands -->
+  
+  <action id="play-command"
+          name="Play"
+          mnemonic="P"
+          smicon="/toolbarButtonGraphics/media/Play16.gif"
+          icon="/toolbarButtonGraphics/media/Play24.gif"
+	  accel="control P"
+          desc="Play"/>
+  <action id="pause-command"
+          name="Pause"
+          mnemonic="O"
+          smicon="/toolbarButtonGraphics/media/Pause16.gif"
+          icon="/toolbarButtonGraphics/media/Pause24.gif"
+	  accel="control O"
+          desc="Pause"/>
+
+  <!-- Help menu commands -->
+
+  <action id="about-command"
+          name="About..."
+          mnemonic="A"
+          smicon="/toolbarButtonGraphics/general/About16.gif"
+          icon="/toolbarButtonGraphics/general/About24.gif"
+          desc="Information about the application"/>
+
+  <!-- Text commands - most of which are toggle actions -->
+
+  <action id="align-right-command"
+	  type="toggle"
+          name="Right Align"
+          mnemonic="R"
+          smicon="/toolbarButtonGraphics/text/AlignRight16.gif"
+          icon="/toolbarButtonGraphics/text/AlignRight24.gif"
+          desc="Adjust the placement of the text along the right side"/>
+
+  <action id="align-left-command"
+	  type="toggle"
+          name="Left Align"
+          mnemonic="L"
+          smicon="/toolbarButtonGraphics/text/AlignLeft24.gif"
+          icon="/toolbarButtonGraphics/text/AlignLeft24.gif"
+          desc="Adjust the placement of the text along the left side"/>
+
+  <action id="align-center-command"
+	  type="toggle"
+          name="Center"
+          mnemonic="N"
+          smicon="/toolbarButtonGraphics/text/AlignCenter16.gif"
+          icon="/toolbarButtonGraphics/text/AlignCenter24.gif"
+          desc="Adjust the placement of the text to the center"/>
+
+  <!-- Toggle Action which will be implemented as a JToggleButton or 
+       a JCheckBoxMenuItem -->
+
+  <action id="history-command"
+	  type="toggle"
+	  name="History"
+	  mnemonic="T"
+	  smicon="/toolbarButtonGraphics/general/History16.gif"
+	  icon="/toolbarButtonGraphics/general/History24.gif"
+	  desc="Display a list of previously visited locations"/>
+
+  <!-- Define the main menu -->
+  
+  <action-list id="main-menu">
+    <action-list id="file-menu" idref="file-menu-command">
+      <action idref="new-command"/>
+      <action idref="open-command" mnemonic="P"/>
+      <action idref="save-command"/>
+      <empty/>
+      <action idref="close-command"/>
+      <empty/>
+      <action idref="exit-command"/>
+    </action-list>
+    <action-list id="edit-menu" idref="edit-menu-command">
+      <action idref="cut-command"/>
+      <action idref="copy-command"/>
+      <action idref="paste-command"/>
+    </action-list>
+    <action-list id="control-menu" idref="control-menu-command">
+      <action idref="play-command"/>
+      <action idref="pause-command"/>
+    </action-list>
+    <action-list id="view-menu" idref="view-menu-command">
+      <group id="align">
+	<action idref="align-left-command"/>
+	<action idref="align-center-command"/>
+	<action idref="align-right-command"/>
+      </group>
+      <empty/>
+      <!-- The following command demonstrates attribute overloading. The history command now has
+           the properties of a "Show Status Bar" command -->
+      <action idref="history-command" name="Show Status Bar" 
+	      mnemonic="B" desc="Shows or hides the status bar"/>
+    </action-list>
+    <!-- The following help-menu action-list demonstrated an inline definition
+         of an action. This may be more convenient then defining the action separately -->
+    <action-list id="help-menu" name="Help" mnemonic="H" desc="Help Operations">
+      <action idref="about-command"/>
+    </action-list>
+  </action-list>
+
+  <!-- Definte the main toolbar -->
+
+  <action-list id="main-toolbar">
+    <action idref="new-command"/>
+    <action idref="open-command"/>
+    <action idref="save-command"/>
+    <empty/>
+    <group id="playControls">
+      <action idref="play-command"/>
+      <action idref="pause-command"/>
+    </group>
+    <empty/>
+    <group id="align">
+      <action idref="align-left-command"/>
+      <action idref="align-center-command"/>
+      <action idref="align-right-command"/>
+    </group>
+    <empty/>
+    <action idref="history-command"/>
+    <empty/>
+    <action idref="about-command"/>
+  </action-list>
+
+</action-set>

@@ -1,0 +1,154 @@
+/*
+ * Created on Feb 7, 2004
+ *
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ */
+package net.fiftytwo.exp.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Rectangle;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+
+import net.fiftytwo.exp.appProps.AppProps;
+import net.fiftytwo.exp.appProps.GuiProps;
+import net.fiftytwo.exp.view.ImageView;
+
+import org.apache.log4j.Category;
+
+import com.sun.jaf.ui.UIFactory;
+
+/**
+ * @author jordan
+ *
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ */
+public class AppFrame extends JFrame
+{
+	private static Category cat = Category.getInstance("AppFrame");
+	
+	//the application frame is a singleton.. only one app frame per application, please.
+	private static AppFrame _instance;
+	
+	private static GuiProps guiProps = GuiProps.getInstance();
+	private static AppProps appProps = AppProps.getInstance();
+	
+	private JMenuBar menuBar;
+	private JToolBar toolBar;
+	private JSplitPane centerPane; //serves as a holder for the views and tabbed pane
+	private JTabbedPane tabPane;
+	private StatusBar statusBar;
+	private JSplitPane splitPane;
+	
+	private ImageView imageView;
+
+	public static synchronized AppFrame getInstance()
+	{
+		if (_instance == null)
+		{
+			_instance = new AppFrame();
+		}
+		return _instance;
+	}
+
+  	protected AppFrame()
+  	{
+  		super(appProps.getProperty("appFrameName", "Harness"));
+  		
+		UIFactory factory = UIFactory.getInstance();
+		
+		menuBar = factory.createMenuBar("main-menu");
+		if (menuBar == null) {
+			cat.error("Unable to get the menuBar!");
+			cat.debug("Did you init the Action Manager?  Be sure to create the controller first!");		
+		}
+
+		toolBar = factory.createToolBar("main-toolbar");
+		if (toolBar == null) {
+			cat.error("Unable to get the toolBar!");
+			cat.debug("Did you init the Action Manager?  Be sure to create the controller first!");		
+
+		}  		
+		
+  		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JPanel(), new JPanel());
+		splitPane.setDividerSize(5);
+		splitPane.setResizeWeight(0.5);
+
+		tabPane = new JTabbedPane();
+				
+		centerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, tabPane);
+		centerPane.setResizeWeight(0.95);
+		
+		statusBar = new StatusBar();
+		
+		init();
+  	}
+  	
+  	protected void init()
+  	{
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  		
+  		if(guiProps.getProperty("appFrameMaximized", false))
+  		{
+  			this.setExtendedState(Frame.MAXIMIZED_BOTH);
+  		}
+  		
+  		this.setBounds(guiProps.getProperty("appFrame", new Rectangle(10, 10, 800, 600)));
+		centerPane.setPreferredSize(guiProps.getProperty("centerPane", new Dimension(792, 400)));
+		tabPane.setPreferredSize(guiProps.getProperty("plugInTabbedPane", new Dimension(790, 100)));
+ 
+		//make the statusbar listen to the menubar and toolbar
+		statusBar.registerListener(menuBar.getSubElements());
+		statusBar.registerListener(toolBar.getComponents());
+  		
+  		//place the components in the layout.
+		setJMenuBar(menuBar);
+ 
+  		Container contentPane = this.getContentPane();
+ 
+  		contentPane.setLayout(new BorderLayout());
+  		
+		contentPane.add(toolBar, BorderLayout.NORTH);
+		contentPane.add(centerPane, BorderLayout.CENTER);
+		contentPane.add(statusBar, BorderLayout.SOUTH);		
+  	}
+  	public void addImageView(ImageView view)
+  	{
+  		this.imageView = view;
+  		splitPane.setTopComponent(view);
+  	}
+  	public void addTab(Component comp)
+  	{
+  		tabPane.add(comp);
+  	}
+  	public void shutDown()
+  	{
+  		cat.debug("Shutting Down and saving properties");
+  		
+	  	//only save the bounds and dimensions IF you're not iconified or maximized.
+	  	int state = this.getExtendedState();
+	  		
+	  	if((state & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)
+	  	{
+	  	    guiProps.setProperty("appFrameMaximized", true);	
+	  	}
+	  	else if((state & Frame.ICONIFIED) != Frame.ICONIFIED)
+	  	{
+			guiProps.setProperty("appFrameMaximized", false);
+	  		guiProps.setProperty("appFrame", this.getBounds());
+	  		guiProps.setProperty("plugInTabbedPane", tabPane.getSize());
+			guiProps.setProperty("centerPane", centerPane.getSize());	
+	  	}	
+  	}
+}
